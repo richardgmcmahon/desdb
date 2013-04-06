@@ -161,13 +161,11 @@ class Synchronizer(object):
                  clobber=False,
                  show_progress=False, 
                  ntry=10,
-                 dryrun=True,
                  debug=False):
 
         self.local_dir=local_dir
         self.clobber=clobber
         self.debug=debug
-        self.debug=dryrun
         self.show_progress=show_progress
         self.ntry=ntry
 
@@ -185,12 +183,10 @@ class Synchronizer(object):
             local_exists=os.path.exists(local_path)
             cmd=self._get_curl_command(url, local_path, tmp_path, local_exists)
 
-
-            if self.debug or self.dryrun:
+            if self.debug:
                 print >>stderr,cmd
 
-            if not self.dryrun:
-                self._run_curl(cmd, url)
+            self._run_curl(cmd, url)
 
             # We need to check because if the local file already existed and
             # was no older than the remote, no file was downloaded
