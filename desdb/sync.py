@@ -167,7 +167,7 @@ class Synchronizer(object):
         self.local_dir=local_dir
         self.clobber=clobber
         self.debug=debug
-        self.debug=dryrun
+        self.dryrun=dryrun
         self.show_progress=show_progress
         self.ntry=ntry
 
