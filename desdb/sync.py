@@ -185,9 +185,9 @@ class Synchronizer(object):
             local_exists=os.path.exists(local_path)
             cmd=self._get_curl_command(url, local_path, tmp_path, local_exists)
 
-
             if self.debug or self.dryrun:
                 print >>stderr,cmd
+                print
 
             if not self.dryrun:
                 self._run_curl(cmd, url)

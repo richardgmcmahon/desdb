@@ -110,6 +110,9 @@ def get_expnames_by_release(release, band, show=False,
         and file_exposure_name not like '%%-0-%(band)s%%'
     """ % {'release':release,'band':band}
 
+    print 'query: ', query
+    print
+
     conn=desdb.Connection(user=user,password=password)
     curs = conn.cursor()
     curs.execute(query)
@@ -152,6 +155,9 @@ def get_red_info_by_runlist(runlist, explist,
             and loc.id=image.id
             and image.imagetype='red'
             and image.ccd != 61\n"""
+
+        print 'query: ', query
+        print
 
         desdata=get_des_rootdir()
         query=query % {'run':run,
@@ -198,6 +204,9 @@ def get_red_info_by_runlist(runlist,
         and loc.id=image.id
         and image.imagetype='red'
         and image.ccd != 61\n"""
+
+    print 'query: ', query
+    print
 
     desdata=get_des_rootdir()
     query=query % {'runcsv':runcsv,
@@ -267,6 +276,9 @@ def get_red_info_by_release(release, band,
         and cat.file_exposure_name not like '%%-0-%(band)s%%'
     order by 
         cat_id\n"""
+
+    print 'query: ', query
+    print
 
     query=query % {'netroot':net_rootdir,
                    'release':release,
@@ -371,6 +383,9 @@ class Red(dict):
             and cat.parentid = im.id
             and im.id = %(id)s\n""" % {'id':self['image_id']}
 
+        print 'query: ', query
+        print
+
         res=self.conn.quick(query,show=self.verbose)
 
         if len(res) > 1:
@@ -398,6 +413,9 @@ class Red(dict):
             and cat.ccd = %(ccd)s\n""" % {'expname':self['expname'],
                                           'ccd':self['ccd'],
                                           'release':self['release']}
+
+        print 'query: ', query
+        print
 
         res=self.conn.quick(query,show=self.verbose)
         if len(res) != 1:
@@ -504,6 +522,10 @@ class Coadd(dict):
             and im.band = '%(band)s'\n""" % {'run':self['coadd_run'],
                                              'band':self['band']}
 
+
+        print 'query: ', query
+        print
+
         res=self.conn.quick(query,show=self.verbose)
 
         if len(res) > 1:
@@ -526,6 +548,9 @@ class Coadd(dict):
             cat.catalogtype='coadd_cat'
             and cat.parentid = im.id
             and im.id = %(id)s\n""" % {'id':self['image_id']}
+
+        print 'query: ', query
+        print
 
         res=self.conn.quick(query,show=self.verbose)
 
@@ -552,6 +577,10 @@ class Coadd(dict):
                                             'band':self['band'],
                                             'release':self['release']}
 
+
+        print 'query: ', query
+        print
+
         res=self.conn.quick(query,show=self.verbose)
         if len(res) != 1:
             raise ValueError("Expected a single result, found %d")
@@ -569,6 +598,9 @@ class Coadd(dict):
         WHERE
             coadd_src.coadd_imageid = %d
             AND coadd_src.src_imageid = image.id\n""" % self['image_id']
+
+        print 'query: ', query
+        print
 
         res = self.conn.quick(query, show=self.verbose)
 
@@ -590,6 +622,9 @@ class Coadd(dict):
                 image
             WHERE
                 id in (%s)\n""" % idcsv
+
+            print 'query: ', query
+            print
 
             res = self.conn.quick(query)
             idlist = [str(d['parentid']) for d in res]
@@ -613,6 +648,10 @@ class Coadd(dict):
         where 
             id in (%(idcsv)s) 
         order by id\n""" % {'idcsv':idcsv}
+
+        print 'query: ', query
+        print
+
 
         res = self.conn.quick(query)
 
